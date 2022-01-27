@@ -21,8 +21,6 @@ jobs:
         uses: NiklasLehnfeld/flutter-version-number-action@main
         with:
           file-path: example/pubspec.yaml
-      - uses: nick-invision/assert-action@v1
+      - uses: peterjgrainger/action-create-branch@v2.0.1
         with:
-          expected: 0.0.1+1
-          actual: ${{ steps.read-version.outputs.version-number }}
-
+          branch: 'rc-${{ steps.read-version.outputs.version-number }}'
