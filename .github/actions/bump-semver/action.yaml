@@ -1,0 +1,43 @@
+name: bump-semver
+description: 'Bumps the version number based on input'
+author: aboutandre
+branding:
+  icon: 'archive'
+  color: 'green'
+inputs:
+  semver-version:
+    description: "A version number following the format MAJOR.MINOR.PATCH"
+    required: true
+  bump-type:
+    description: "Either PATCH, MINOR or MAJOR"
+    required: true
+outputs:
+  version-number:
+    description: "New version number"
+    value: ${{ steps.bump.outputs.bumped-version }}
+runs:
+  using: "composite"
+  steps:
+    - id: bump
+      run: |
+        BUMP_TYPE=${{inputs.bump-type}}
+        BUMPED_VERSION=''
+        case ${BUMP_TYPE^^} in
+      
+          PATCH)
+          BUMPED_VERSION=0.0.100
+          ;;
+        
+          MINOR)
+          BUMPED_VERSION=0.100.0
+          ;;
+        
+          MAJOR)
+          BUMPED_VERSION=100.0.0
+          ;;
+        
+          *)
+          echo -n "Unknown version type"
+          ;;
+        echo "::set-output name=bumped-version::$(echo $BUMPED_VERSION)"
+      shell: bash
