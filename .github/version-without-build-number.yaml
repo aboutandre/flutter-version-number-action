@@ -1,0 +1,22 @@
+name: version-without-build-number
+description: 'Reads the version number of the pubspec.yaml'
+author: aboutandre
+branding:
+  icon: 'archive'
+  color: 'green'
+inputs:
+  flutter-version:
+    description: "The version found in ./pubspec.yaml"
+    required: true
+outputs:
+  version-number:
+    description: "Version number"
+    value: ${{ steps.read-yaml.outputs.version }}
+runs:
+  using: "composite"
+  steps:
+    - id: read-yaml
+      run: |
+        VERSION=`${{inputs.flutter-version}} | sed 's|.*\:||' | sed 's|\(.*\)+.*|\1|'`
+        echo "::set-output name=version::$(echo $VERSION)"
+      shell: bash
