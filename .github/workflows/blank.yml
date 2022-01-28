@@ -23,7 +23,7 @@ jobs:
         uses: NiklasLehnfeld/flutter-version-number-action@main
       - uses: actions/checkout@v2
       - id: version-without-build-number
-        uses: ./.github/actions/version-without-build-number.yaml
+        uses: ${{ github.workspace }}/.github/actions/version-without-build-number.yaml
         with:
           flutter-version: ${{ steps.pubspec-version.outputs.version-number }}
       - run: |
