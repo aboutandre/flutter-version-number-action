@@ -1,14 +1,14 @@
 on:
   workflow_dispatch:
-#     inputs:
-#       choice:
-#         type: choice
-#         description: Make a choice
-#         required: true
-#         options:
-#           - foo
-#           - bar
-#           - baz
+    inputs:
+      choice:
+        type: semVer
+        description: Changes level
+        required: true
+        options:
+          - MAJOR
+          - MINOR
+          - PATCH
 
 name: Checkout test
 jobs:
@@ -16,34 +16,36 @@ jobs:
     name: test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - id: pubspec-version
-        uses: NiklasLehnfeld/flutter-version-number-action@main
-      - uses: peterjgrainger/action-create-branch@v2.0.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          branch: 'rc-${{ steps.pubspec-version.outputs.version-number }}'
-      - uses: actions/checkout@v2
-        with:
-          ref: 'rc-${{ steps.pubspec-version.outputs.version-number }}'
-      - uses: DamianReeves/write-file-action@v1.0
-        with:
-            # The path to the file to write
-          path: ${{ github.workspace }}/tomato.txt
-          contents: |
-            echo "Hello World!"
-          write-mode: overwrite
-#       - uses: EndBug/add-and-commit@v8.0.1
+      - run: | 
+          echo "environment is ${{ github.event.inputs.semVer }}"
+#       - uses: actions/checkout@v2
+#       - id: pubspec-version
+#         uses: NiklasLehnfeld/flutter-version-number-action@main
+#       - uses: peterjgrainger/action-create-branch@v2.0.1
+#         env:
+#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 #         with:
-#           add: tomato.txt
-#           push: true
-#           default_author: github_actor
-      - run: git status
-      - run: git config --local user.email "action@github.com"
-      - run: git config --local user.name "GitHub Action"
-      - run: git add tomato.txt
-      - run: git commit -m "file updated"
-      - run: "git push https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git HEAD"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#           branch: 'rc-${{ steps.pubspec-version.outputs.version-number }}'
+#       - uses: actions/checkout@v2
+#         with:
+#           ref: 'rc-${{ steps.pubspec-version.outputs.version-number }}'
+#       - uses: DamianReeves/write-file-action@v1.0
+#         with:
+#             # The path to the file to write
+#           path: ${{ github.workspace }}/tomato.txt
+#           contents: |
+#             echo "Hello World!"
+#           write-mode: overwrite
+# #       - uses: EndBug/add-and-commit@v8.0.1
+# #         with:
+# #           add: tomato.txt
+# #           push: true
+# #           default_author: github_actor
+#       - run: git status
+#       - run: git config --local user.email "action@github.com"
+#       - run: git config --local user.name "GitHub Action"
+#       - run: git add tomato.txt
+#       - run: git commit -m "file updated"
+#       - run: "git push https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git HEAD"
+#         env:
+#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
