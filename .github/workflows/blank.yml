@@ -30,7 +30,7 @@ jobs:
       - uses: DamianReeves/write-file-action@v1.0
         with:
             # The path to the file to write
-          path: ${{ github.workspace }}/tomato.txt
+          path: ${{ github.workspace }}./tomato.txt
           contents: |
             echo "Hello World!"
           write-mode: overwrite
