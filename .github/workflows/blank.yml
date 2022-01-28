@@ -1,8 +1,8 @@
 on:
   workflow_dispatch:
     inputs:
-      choice:
-        type: semVer
+      semVer:
+        type: choice
         description: Changes level
         required: true
         options:
