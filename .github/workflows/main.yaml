@@ -17,12 +17,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - id: read-version
+      - id: pubspec-version
         uses: NiklasLehnfeld/flutter-version-number-action@main
-        with:
-          file-path: example/pubspec.yaml
       - uses: peterjgrainger/action-create-branch@v2.0.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          branch: 'rc-${{ steps.read-version.outputs.version-number }}'
+          branch: 'rc-${{ steps.pubspec-version.outputs.version-number }}'
