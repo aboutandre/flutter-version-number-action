@@ -10,7 +10,7 @@ on:
 #           - bar
 #           - baz
 
-name: Test
+name: Checkout test
 jobs:
   test:
     name: test
