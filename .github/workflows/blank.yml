@@ -23,7 +23,6 @@ jobs:
       - name: Get current pub spec
         id: pubspec-version
         uses: NiklasLehnfeld/flutter-version-number-action@main
-#       - uses: actions/checkout@v2
       - name: Get next version without build
         id: version-without-build-number
         uses: ./.github/actions/version-without-build-number
@@ -51,7 +50,7 @@ jobs:
           branch: 'rc-${{ steps.bump-version.outputs.version-number }}'
       - uses: actions/checkout@v2
         with:
-          ref: 'rc-${{ steps.pubspec-version.outputs.version-number }}'
+          ref: 'rc-${{ steps.bump-version.outputs.version-number }}'
       - uses: DamianReeves/write-file-action@v1.0
         with:
             # The path to the file to write
