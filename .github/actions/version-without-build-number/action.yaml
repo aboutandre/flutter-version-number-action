@@ -17,5 +17,5 @@ runs:
   steps:
     - id: read-yaml
       run: |
-        echo "::set-output name=version::$(echo "{inputs.flutter-version}" | sed 's|.*\:||' | sed 's|\(.*\)+.*|\1|')"
+        echo "::set-output name=version::$(echo "${inputs.flutter-version}" | sed 's|.*\:||' | sed 's|\(.*\)+.*|\1|')"
       shell: bash
