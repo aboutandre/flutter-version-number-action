@@ -17,6 +17,6 @@ runs:
   steps:
     - id: strip-build-number
       run: |
-        VERSION=`"${{inputs.flutter-version}}" | sed 's|.*\:||' | sed 's|\(.*\)+.*|\1|'`
+        VERSION="${{inputs.flutter-version}}" | sed 's|.*\:||' | sed 's|\(.*\)+.*|\1|'
         echo "::set-output name=version::$(echo $VERSION)"
       shell: bash
