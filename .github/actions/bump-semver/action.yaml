@@ -39,5 +39,7 @@ runs:
           *)
           echo -n "Unknown version type"
           ;;
+        esac
+        
         echo "::set-output name=bumped-version::$(echo $BUMPED_VERSION)"
       shell: bash
