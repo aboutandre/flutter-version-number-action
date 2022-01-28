@@ -16,16 +16,20 @@ jobs:
     name: test
     runs-on: ubuntu-latest
     steps:
-      - run: | 
+      - name: Test echo
+        run: | 
           echo "Release candidate with level: "${{ github.event.inputs.semVer }}" will be created"
       - uses: actions/checkout@v2
-      - id: pubspec-version
+      - name: Get current pub spec
+        id: pubspec-version
         uses: NiklasLehnfeld/flutter-version-number-action@main
-      - uses: ./.github/actions/version-without-build-number
-      - id: version-without-build-number
+      - name: Get next version without build
+        id: version-without-build-number
+        uses: ./.github/actions/version-without-build-number
         with:
           flutter-version: ${{ steps.pubspec-version.outputs.version-number }}
-      - run: |
+      - name: Test echo 2
+        run: |
           echo "Pure version number is: ${{steps.version-without-build-number.outputs.version-number}}"
 #       - uses: peterjgrainger/action-create-branch@v2.0.1
 #         env:
