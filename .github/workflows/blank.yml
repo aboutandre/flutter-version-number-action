@@ -18,9 +18,11 @@ jobs:
     steps:
       - run: | 
           echo "Release candidate with level: "${{ github.event.inputs.semVer }}" will be created"
-#       - uses: actions/checkout@v2
-#       - id: pubspec-version
-#         uses: NiklasLehnfeld/flutter-version-number-action@main
+      - uses: actions/checkout@v2
+      - id: pubspec-version
+        uses: NiklasLehnfeld/flutter-version-number-action@main
+      - run: |
+          echo ${{ steps.pubspec-version.outputs.version-number }} | grep -o 'version:[^:]*' | cut -f2 -d":" | sed 's|\(.*\)+.*|\1|' | xargs
 #       - uses: peterjgrainger/action-create-branch@v2.0.1
 #         env:
 #           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
