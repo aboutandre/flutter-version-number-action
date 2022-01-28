@@ -31,7 +31,7 @@ jobs:
           flutter-version: ${{ steps.pubspec-version.outputs.version-number }}
       - name: Test echo 2
         run: |
-          echo "Pure version number is: ${{steps.version-without-build-number.outputs.version}}"
+          echo "Pure version number is: ${{steps.version-without-build-number.outputs.version-number}}"
 #       - uses: peterjgrainger/action-create-branch@v2.0.1
 #         env:
 #           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
