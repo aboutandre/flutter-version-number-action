@@ -11,11 +11,12 @@ inputs:
 outputs:
   version-number:
     description: "Version number"
-    value: ${{ steps.read-yaml.outputs.version }}
+    value: ${{ steps.strip-build-number.outputs.version }}
 runs:
   using: "composite"
   steps:
-    - id: read-yaml
+    - id: strip-build-number
       run: |
-        echo "::set-output name=version::$(echo "${{inputs.flutter-version}}" | sed 's|.*\:||' | sed 's|\(.*\)+.*|\1|')"
+        VERSION=`"${{inputs.flutter-version}}" | sed 's|.*\:||' | sed 's|\(.*\)+.*|\1|'`
+        echo "::set-output name=version::$(echo $VERSION)"
       shell: bash
