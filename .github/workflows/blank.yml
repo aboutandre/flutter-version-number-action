@@ -21,6 +21,7 @@ jobs:
       - uses: actions/checkout@v2
       - id: pubspec-version
         uses: NiklasLehnfeld/flutter-version-number-action@main
+      - uses: actions/checkout@v2
       - id: version-without-build-number
         uses: ./.github/actions/version-without-build-number.yaml
         with:
