@@ -16,6 +16,7 @@ jobs:
     name: test
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - id: pubspec-version
         uses: NiklasLehnfeld/flutter-version-number-action@main
       - uses: actions/checkout@v2
