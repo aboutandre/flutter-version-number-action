@@ -1,0 +1,25 @@
+on:
+  workflow_dispatch:
+#     inputs:
+#       choice:
+#         type: choice
+#         description: Make a choice
+#         required: true
+#         options:
+#           - foo
+#           - bar
+#           - baz
+
+name: Test
+jobs:
+  test:
+    name: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - id: pubspec-version
+        uses: NiklasLehnfeld/flutter-version-number-action@main
+      - uses: actions/checkout@v2.4.0
+        with:
+          ref: 'rc-${{ steps.pubspec-version.outputs.version-number }}'
+
