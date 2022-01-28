@@ -23,6 +23,7 @@ jobs:
       - name: Get current pub spec
         id: pubspec-version
         uses: NiklasLehnfeld/flutter-version-number-action@main
+      - uses: actions/checkout@v2
       - name: Get next version without build
         id: version-without-build-number
         uses: ./.github/actions/version-without-build-number
