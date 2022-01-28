@@ -21,25 +21,18 @@ runs:
     - id: bump
       run: |
         BUMP_TYPE=${{inputs.bump-type}}
-        BUMPED_VERSION=''
+        
+        var=${{inputs.semver-version}}
+        IFS=. read -r version minor patch <<EOF
+        $var
+        EOF
+        
         case ${BUMP_TYPE^^} in
-      
-          PATCH)
-          BUMPED_VERSION=0.0.100
-          ;;
-        
-          MINOR)
-          BUMPED_VERSION=0.100.0
-          ;;
-        
-          MAJOR)
-          BUMPED_VERSION=100.0.0
-          ;;
-        
-          *)
-          echo -n "Unknown version type"
-          ;;
+          PATCH) tag="$version.$minor.$((patch+1))"; ;;
+          MAJOR) tag="$((version+1)).0.0"; ;;
+          *)     tag="$version.$((minor+1)).0"; ;;
         esac
+          
         
-        echo "::set-output name=bumped-version::$(echo $BUMPED_VERSION)"
+        echo "::set-output name=bumped-version::$(echo tag)"
       shell: bash
