@@ -16,10 +16,8 @@ jobs:
     name: test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
       - id: pubspec-version
         uses: NiklasLehnfeld/flutter-version-number-action@main
-      - uses: actions/checkout@v2.4.0
+      - uses: actions/checkout@v2
         with:
           ref: 'rc-${{ steps.pubspec-version.outputs.version-number }}'
-
