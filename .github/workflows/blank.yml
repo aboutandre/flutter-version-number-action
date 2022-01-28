@@ -24,7 +24,7 @@ jobs:
       - uses: ./.github/actions/version-without-build-number
       - id: version-without-build-number
         with:
-          input: ${{ steps.pubspec-version.outputs.version-number }}
+          flutter-version: ${{ steps.pubspec-version.outputs.version-number }}
       - run: |
           echo "Pure version number is: ${{steps.version-without-build-number.outputs.version-number}}"
 #       - uses: peterjgrainger/action-create-branch@v2.0.1
