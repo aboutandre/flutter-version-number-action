@@ -28,11 +28,11 @@ runs:
         EOF
         
         case ${BUMP_TYPE^^} in
-          PATCH) tag="$version.$minor.$((patch+1))"; ;;
-          MAJOR) tag="$((version+1)).0.0"; ;;
-          *)     tag="$version.$((minor+1)).0"; ;;
+          PATCH) BUMPED_VERSION="$version.$minor.$((patch+1))"; ;;
+          MAJOR) BUMPED_VERSION="$((version+1)).0.0"; ;;
+          *)     BUMPED_VERSION="$version.$((minor+1)).0"; ;;
         esac
           
         
-        echo "::set-output name=bumped-version::$(echo tag)"
+        echo "::set-output name=bumped-version::$(echo $BUMPED_VERSION)"
       shell: bash
