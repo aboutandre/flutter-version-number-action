@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: | 
-          echo "Release candidate with level: \"${{ github.event.inputs.semVer }}\" will be created"
+          echo "Release candidate with level: "${{ github.event.inputs.semVer }}" will be created"
 #       - uses: actions/checkout@v2
 #       - id: pubspec-version
 #         uses: NiklasLehnfeld/flutter-version-number-action@main
