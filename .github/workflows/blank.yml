@@ -67,7 +67,8 @@ jobs:
       - run: git config --local user.email "action@github.com"
       - run: git config --local user.name "GitHub Action"
       - run: git add tomato.txt
-      - run: git commit -m "file updated"
+      - run: git status
+      - run: git log
       - run: "git push https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git HEAD"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
