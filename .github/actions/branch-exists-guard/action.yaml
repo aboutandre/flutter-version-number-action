@@ -1,0 +1,19 @@
+name: branch-exists-guard
+description: 'Guard to check if branch exists'
+author: aboutandre
+branding:
+  icon: 'archive'
+  color: 'green'
+inputs:
+  branch:
+    description: "The branch ref to check if it exists in the repo"
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - id: guard
+      run: |
+        if git show-ref --quiet ${inputs.branch}; then
+          exit 1
+        fi
+      shell: bash

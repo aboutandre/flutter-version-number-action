@@ -41,6 +41,11 @@ jobs:
         run: |
           echo "Bumped version number is: ${{steps.bump-version.outputs.version-number}}"
 
+      - name: Check that branch does not exist
+        uses: ./.github/actions/branch-exists-guard
+        with:
+          branch: 'rc-${{steps.bump-version.outputs.version-number}}'
+
       ### WIP
       - uses: peterjgrainger/action-create-branch@v2.0.1
         env:
