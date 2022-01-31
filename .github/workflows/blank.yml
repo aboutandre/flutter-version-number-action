@@ -20,9 +20,6 @@ jobs:
         run: | 
           echo "Release candidate with level: "${{ github.event.inputs.semVer }}" will be created"
       - uses: actions/checkout@v2
-      - name: Get current pub spec
-        id: pubspec-version
-        uses: NiklasLehnfeld/flutter-version-number-action@main
       - name: Bump the version and build number
         id: bump-version
         uses: ./.github/actions/bump-semver
