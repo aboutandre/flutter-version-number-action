@@ -18,7 +18,7 @@ runs:
     - id: guard
       run: |
         BRANCH_EXISTS=false
-        git ls-remote --exit-code --heads git@github.com:${{ github.repository }} ${{ inputs.branch }}
+        git ls-remote --exit-code --heads https://github.com/${{ github.repository }} ${{ inputs.branch }}
         if [ $? -eq 2 ]
         then
         BRANCH_EXISTS=false
