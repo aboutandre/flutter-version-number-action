@@ -17,7 +17,8 @@ runs:
   steps:
     - id: guard
       run: |
-        BRANCH_EXISTS=false
+        git show-branch main &>/dev/null && echo yes || echo no
+
         git ls-remote --exit-code --heads https://github.com/${{ github.repository }} ${{ inputs.branch }}
         echo "This is the exit code"
         echo $?
