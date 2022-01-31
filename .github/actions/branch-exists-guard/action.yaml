@@ -23,6 +23,6 @@ runs:
         CHECK=$?
         }
         checkForBranch
-        BRANCH_EXISTS=$(if [ $CHECK -eq 2 ]; then echo false; else echo true; fi)
+        BRANCH_EXISTS=$(if [ $CHECK -eq 2 ]; then echo "no"; else echo "yes"; fi)
         echo "::set-output name=branch-exists::$(echo $BRANCH_EXISTS)"
       shell: bash
