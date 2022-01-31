@@ -19,10 +19,23 @@ runs:
       run: |
         CHECK=false
         checkForBranch() {
-        git ls-remote --heads https://github.com/aboutandre/flutter-version-number-action ${{inputs.branch}}
+        git ls-remote --quiet --exit-code --heads https://github.com/aboutandre/flutter-version-number-action main
+        echo $?
         CHECK=$?
+        return $?
         }
         checkForBranch
-        BRANCH_EXISTS=$(if [ $CHECK -eq 2 ]; then echo "no"; else echo "yes"; fi)
+        echo "CHECK #######"
+        echo $CHECK
+
+        DONE=$(checkForBranch)
+  
+        echo "DONE"
+        echo $DONE
+  
+        BRANCH_EXISTS=$(if [ $DONE -eq 2 ]; then echo "no"; else echo "yes"; fi)
+  
+        echo "BRANCH_EXISTS"
+        echo $BRANCH_EXISTS
         echo "::set-output name=branch-exists::$(echo $BRANCH_EXISTS)"
       shell: bash
