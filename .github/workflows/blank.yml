@@ -46,9 +46,10 @@ jobs:
         uses: ./.github/actions/branch-exists-guard
         with:
           branch: 'rc-${{steps.bump-version.outputs.version-number}}'
-
+      - run: |
+          echo ${{ steps.check-if-branch-exists.outputs.branch-exists == true }}
       - name: Check that branch does not exist
-        if: ${{steps.check-if-branch-exists.outputs.branch-exists}}
+        if: ${{ steps.check-if-branch-exists.outputs.branch-exists == true }}
         uses: actions/github-script@v3
         with:
           script: |
