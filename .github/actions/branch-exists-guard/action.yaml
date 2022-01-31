@@ -17,13 +17,13 @@ runs:
   steps:
     - id: guard
       run: |
+        BRANCH_EXISTS=false
+        git ls-remote --exit-code --heads ${{ github.repository }} ${{ inputs.branch }}
+        if [ $? -eq 2 ]
+        then
+        BRANCH_EXISTS=false
+        else
         BRANCH_EXISTS=true
-        git show-ref
-        if git show-ref --quiet ${{inputs.branch}}; then
-          BRANCH_EXISTS=true; else
-          BRANCH_EXISTS=false
         fi
-        echo "inside action"
-        echo $BRANCH_EXISTS
         echo "::set-output name=branch-exists::$(echo $BRANCH_EXISTS)"
       shell: bash
