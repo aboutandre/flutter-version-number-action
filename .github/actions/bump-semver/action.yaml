@@ -5,9 +5,10 @@ branding:
   icon: 'archive'
   color: 'green'
 inputs:
-  pubspec-version-with-build:
-    description: "A version number following the format MAJOR.MINOR.PATCH+BUILD_NUMBER"
-    required: true
+  file-path:
+    description: "Path to pubspec.yaml. Default is ./pubspec.yaml"
+    required: false
+    default: "./pubspec.yaml"
   bump-type:
     description: "Either PATCH, MINOR or MAJOR"
     required: true
@@ -20,9 +21,10 @@ runs:
   steps:
     - id: bump
       run: |
+        VERSION=`cat ${{inputs.file-path}} | grep -o 'version:[^:]*' | cut -f2 -d":" | xargs`
         BUMP_TYPE=${{inputs.bump-type}}
         
-        semVersion=`echo "${{inputs.pubspec-version-with-build}}" | sed 's|.*\:||' | sed 's|\(.*\)+.*|\1|' | xargs`
+        semVersion=`echo $VERSION | sed 's|.*\:||' | sed 's|\(.*\)+.*|\1|' | xargs`
         IFS=. read -r version minor patch <<EOF
         $semVersion
         EOF
@@ -33,7 +35,7 @@ runs:
           *)     BUMPED_VERSION="$version.$((minor+1)).0"; ;;
         esac
           
-        BUILD_NUMBER=`echo "${{inputs.pubspec-version-with-build}}" | grep -o '+.*' | cut -f2- -d+`
+        BUILD_NUMBER=`echo $VERSION | grep -o '+.*' | cut -f2- -d+`
         BUILD_NUMBER=$((BUILD_NUMBER + 1))
         
         echo "::set-output name=bumped-version::$(echo $BUMPED_VERSION+$BUILD_NUMBER)"

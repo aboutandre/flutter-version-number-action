@@ -1,30 +1,109 @@
-name: some_app
-description: Some strange flutter app
+name: porta_app
+description: The porta.de multi plattform app.
 
-publish_to: 'none'
+publish_to: "none"
 
-version: 0.0.1+1
+version: 1.0.9+104
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
+  flutter: ">=1.22.2"
 
 dependencies:
+  auto_route: ^3.2.0
+  badges: ^2.0.1
+  better_player: ^0.0.79
+  injectable: ^1.5.0
+  built_collection:
+  cloud_firestore: ^3.1.5
+  collection: ^1.15.0
+  connectivity_plus: ^2.2.0
+  cupertino_icons: ^1.0.2
+  device_info_plus: ^3.2.1
+  easy_debounce: ^2.0.1
+  easy_localization: ^3.0.0
+  enum_to_string: ^2.0.1
+  expandable_page_view: ^1.0.6
+  extended_image: ^6.0.1
+  figma_squircle: ^0.5.3
+  firebase_analytics: ^9.0.4
+  firebase_core: ^1.10.0
+  firebase_crashlytics: ^2.3.0
+  firebase_performance: ^0.8.0+3
+  flash: ^2.0.1
   flutter:
     sdk: flutter
-
-  flutter_localizations:
-    sdk: flutter
-
-  provider: ^6.0.0
-  json_annotation: ^4.1.0
-  http: ^0.13.3
-
+  flutter_countdown_timer: ^4.1.0
+  flutter_dotenv:
+  flutter_hooks:
+  flutter_html: ^2.2.1
+  flutter_inappwebview: ^5.3.2
+  flutter_slidable: ^1.0.0-dev.9
+  flutter_svg:
+  flutter_switch: ^0.3.2
+  geolocator: ^8.0.1
+  geocoding: ^2.0.2
+  get_it:
+  google_maps_flutter: ^2.1.1
+  hooks_riverpod: ^1.0.0
+  html_unescape: ^2.0.0
+  infinite_carousel: ^1.0.1
+  infinite_scroll_pagination: ^3.1.0
+  localstorage: ^4.0.0
+  logging: ^1.0.2
+  package_info_plus: ^1.0.6
+  quiver: ^3.0.1
+  scroll_to_index: ^2.0.0
+  share_plus: ^3.0.4
+  shared_preferences: ^2.0.8
+  shimmer: ^2.0.0
+  store_redirect: ^2.0.0
+  transparent_image: ^2.0.0
+  uni_links: ^0.5.1
+  url_launcher: ^6.0.9
+  usercentrics_sdk: ^2.0.3
+  uuid: ^3.0.4
+  version: ^2.0.0
 
 dev_dependencies:
+  auto_route_generator: ^3.1.0
+  build_runner:
+  injectable_generator: ^1.5.2
+  flutter_driver:
+    sdk: flutter
+  flutter_launcher_icons: ^0.9.2
+  flutter_lints: ^1.0.4
   flutter_test:
     sdk: flutter
+  golden_toolkit: ^0.13.0
+  http_mock_adapter:
+  integration_test:
+    sdk: flutter
+  lint:
+  mockito: ^5.0.16
+  network_image_mock: ^2.0.1
+
+flutter_icons:
+  image_path_ios: "assets/launcher_icon/ios_icon.png"
+  image_path_android: "assets/launcher_icon/android_icon.png"
+  android: true
+  ios: true
+  adaptive_icon_background: "#ffffff"
+  adaptive_icon_foreground: "assets/launcher_icon/android_icon.png"
 
 flutter:
+
   uses-material-design: true
-
-
+  fonts:
+    - family: Mark Pro
+      fonts:
+        - asset: fonts/MarkPro-Book.otf
+          weight: 400
+        - asset: fonts/MarkPro-Bold.otf
+          weight: 700
+    - family: PortaAppSm
+      fonts:
+        - asset: fonts/PortaAppSm.ttf
+    - family: PortaAppMd
+      fonts:
+        - asset: fonts/PortaAppMd.ttf
