@@ -13,9 +13,12 @@ inputs:
     description: "Either PATCH, MINOR or MAJOR"
     required: true
 outputs:
-  version-number:
+  parsed-version-number:
+    description: "Parsed version found in the pubspec.yaml"
+    value: ${{ steps.bump.outputs.parsed-version-number }}
+  bumped-version-number:
     description: "New version with build number"
-    value: ${{ steps.bump.outputs.bumped-version }}
+    value: ${{ steps.bump.outputs.bumped-version-number }}
 runs:
   using: "composite"
   steps:
@@ -38,5 +41,6 @@ runs:
         BUILD_NUMBER=`echo $VERSION | grep -o '+.*' | cut -f2- -d+`
         BUILD_NUMBER=$((BUILD_NUMBER + 1))
         
-        echo "::set-output name=bumped-version::$(echo $BUMPED_VERSION+$BUILD_NUMBER)"
+        echo "::set-output name=parsed-version-number::$(echo $VERSION)"
+        echo "::set-output name=bumped-version-number::$(echo $BUMPED_VERSION+$BUILD_NUMBER)"
       shell: bash
