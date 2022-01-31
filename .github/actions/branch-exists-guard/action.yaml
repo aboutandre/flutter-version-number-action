@@ -17,18 +17,17 @@ runs:
   steps:
     - id: guard
       run: |
-            CHECK=false
-            checkForBranch() {
-            git ls-remote --exit-code --heads https://github.com/aboutandre/flutter-version-number-action tomato
-            CHECK=$?
-            }
-            checkForBranch
-            echo "CHECK"
-            echo $CHECK
-            BRANCH_EXISTS=$(if [ $CHECK -eq 2 ]; then echo false; else echo true; fi)
-            echo "Branch exists"
-            echo BRANCH_EXISTS
-            echo $BRANCH_EXISTS
-  
-          echo "::set-output name=branch-exists::$(echo $BRANCH_EXISTS)"
+        CHECK=false
+        checkForBranch() {
+        git ls-remote --exit-code --heads https://github.com/aboutandre/flutter-version-number-action tomato
+        CHECK=$?
+        }
+        checkForBranch
+        echo "CHECK"
+        echo $CHECK
+        BRANCH_EXISTS=$(if [ $CHECK -eq 2 ]; then echo false; else echo true; fi)
+        echo "Branch exists"
+        echo BRANCH_EXISTS
+        echo $BRANCH_EXISTS
+        echo "::set-output name=branch-exists::$(echo $BRANCH_EXISTS)"
       shell: bash
