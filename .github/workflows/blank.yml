@@ -42,9 +42,11 @@ jobs:
           echo "Bumped version number is: ${{steps.bump-version.outputs.version-number}}"
 
       - name: Check that branch does not exist
-        uses: ./.github/actions/branch-exists-guard
+        if: git show-ref rc-${{steps.bump-version.outputs.version-number}}
+        uses: actions/github-script@v3
         with:
-          branch: 'rc-${{steps.bump-version.outputs.version-number}}'
+          script: |
+            core.setFailed('Branch already exists')
 
       ### WIP
       - uses: peterjgrainger/action-create-branch@v2.0.1
