@@ -21,7 +21,7 @@ runs:
   steps:
     - id: bump
       run: |
-        VERSION=`cat ${{inputs.file-path}} | grep -o 'version:[^:]*' | cut -f2 -d":" | xargs`
+        VERSION=`cat ${{inputs.file-path}} | grep -o -m 1 'version:[^:]*' | cut -f2 -d":" | xargs`
         BUMP_TYPE=${{inputs.bump-type}}
         
         semVersion=`echo $VERSION | sed 's|.*\:||' | sed 's|\(.*\)+.*|\1|' | xargs`
