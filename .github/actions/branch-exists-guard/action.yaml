@@ -8,12 +8,20 @@ inputs:
   branch:
     description: "The branch ref to check if it exists in the repo"
     required: true
+outputs:
+  branch-exists:
+    description: "The branch exists"
+    value: ${{ steps.guard.outputs.branch-exists }}
 runs:
   using: "composite"
   steps:
     - id: guard
       run: |
+        BRANCH_EXISTS=false
         if git show-ref --quiet ${{inputs.branch}}; then
-          exit 1
+          BRANCH_EXISTS=true; else
+          BRANCH_EXISTS=false
         fi
+        
+        echo "::set-output name=branch-exists::$(echo $BRANCH_EXISTS)"
       shell: bash
