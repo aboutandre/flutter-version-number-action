@@ -17,7 +17,7 @@ runs:
   steps:
     - id: guard
       run: |
-          git show-branch --exit-code --heads https://github.com/aboutandre/flutter-version-number-action ${{inputs.branch}}
+          git ls-remote --exit-code --heads https://github.com/aboutandre/flutter-version-number-action ${{inputs.branch}}
           echo "This is the exit code"
           echo $?
           BRANCH_EXISTS=$(if [ $? -ne 0 ]; then echo true; else echo false; fi)
