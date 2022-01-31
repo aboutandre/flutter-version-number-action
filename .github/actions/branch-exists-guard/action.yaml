@@ -13,7 +13,7 @@ runs:
   steps:
     - id: guard
       run: |
-        if git show-ref --quiet ${inputs.branch}; then
+        if git show-ref --quiet ${{inputs.branch}}; then
           exit 1
         fi
       shell: bash
