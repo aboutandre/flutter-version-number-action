@@ -46,28 +46,28 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          branch: 'rc-${{ steps.bump-version.outputs.version-number }}'
+          branch: 'rc-${{steps.bump-version.outputs.version-number}}'
       - uses: actions/checkout@v2
         with:
-          ref: 'rc-${{ steps.bump-version.outputs.version-number }}'
-      - uses: DamianReeves/write-file-action@v1.0
-        with:
-            # The path to the file to write
-          path: ${{ github.workspace }}/tomato.txt
-          contents: |
-            echo "Hello World!"
-          write-mode: overwrite
+          ref: 'rc-${{steps.bump-version.outputs.version-number}}'
+      - run: sed -i -e 's/${{ steps.pubspec-version.outputs.version-number }}/${{steps.bump-version.outputs.version-number}}/gi' pubspec.yaml
+#      - uses: DamianReeves/write-file-action@v1.0
+#        with:
+#            # The path to the file to write
+#          path: ${{ github.workspace }}/tomato.txt
+#          contents: |
+#            echo "Hello World!"
+#          write-mode: overwrite
       - uses: EndBug/add-and-commit@v8.0.1
         with:
-          add: tomato.txt
+          add: pubspec.yaml
           push: true
           default_author: github_actor
-      - run: git status
-      - run: git config --local user.email "action@github.com"
-      - run: git config --local user.name "GitHub Action"
-      - run: git add tomato.txt
-      - run: git status
-      - run: git log
+#      - run: git status
+#      - run: git config --local user.email "action@github.com"
+#      - run: git config --local user.name "GitHub Action"
+#      - run: git status
+#      - run: git log
       - run: "git push https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git HEAD"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
