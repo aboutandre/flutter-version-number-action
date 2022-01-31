@@ -27,7 +27,7 @@ jobs:
           bump-type: ${{ github.event.inputs.semVer }}
       - name: Test echo 3
         run: |
-          echo "Bumped version number is: ${{steps.bump-version.outputs.version-number}}"
+          echo "Bumped version number is: ${{steps.bump-version.outputs.steps.bump-version.outputs.bumped-version-number}}"
 
 #      - name: Check that branch does not exist
 #        id: check-if-branch-exists
@@ -47,10 +47,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          branch: 'rc-${{steps.bump-version.outputs.version-number}}'
+          branch: 'rc-${{steps.bump-version.outputs.bumped-version-number}}'
       - uses: actions/checkout@v2
         with:
-          ref: 'rc-${{steps.bump-version.outputs.version-number}}'
+          ref: 'rc-${{steps.bump-version.outputs.bumped-version-number}}'
       - name: Update pubspec.yaml version and build number
         run: sed -i -e '1,/${{ steps.bump-version.outputs.parsed-version-number }}/{s/${{ steps.bump-version.outputs.parsed-version-number }}/${{steps.bump-version.outputs.bumped-version-number}}/;}' pubspec.yaml
       - name: Commit and push updated pubspec.yaml
