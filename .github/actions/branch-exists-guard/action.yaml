@@ -25,6 +25,6 @@ runs:
 #        echo "Branch exists"
 #        echo BRANCH_EXISTS
 #        echo $BRANCH_EXISTS
-        BRANCH_EXISTS=$(git show-branch main &>/dev/null && echo true || echo false)
+        BRANCH_EXISTS=$(git show-branch ${{ inputs.branch }} &>/dev/null && echo true || echo false)
         echo "::set-output name=branch-exists::$(echo $BRANCH_EXISTS)"
       shell: bash
