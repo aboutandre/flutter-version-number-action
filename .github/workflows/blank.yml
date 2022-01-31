@@ -62,5 +62,4 @@ jobs:
       - run: git checkout rc-${{steps.bump-version.outputs.bumped-version-number}}
       - run: git branch --show-current
       - run: echo ${{github.ref}}
-      - run: echo ${{GITHUB_REF##*/}}
       - run: echo ${GITHUB_REF##*/}
