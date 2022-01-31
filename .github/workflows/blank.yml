@@ -23,26 +23,25 @@ jobs:
       - name: Get current pub spec
         id: pubspec-version
         uses: NiklasLehnfeld/flutter-version-number-action@main
-      - name: Get next version without build
-        id: version-without-build-number
-        uses: ./.github/actions/version-without-build-number
-        with:
-          flutter-version: ${{ steps.pubspec-version.outputs.version-number }}
-      - name: Test echo 2
-        run: |
-          echo "Pure version number is: ${{steps.version-without-build-number.outputs.version-number}}"
-      - name: Bump the version
+#      - name: Get next version without build
+#        id: version-without-build-number
+#        uses: ./.github/actions/version-without-build-number
+#        with:
+#          flutter-version: ${{ steps.pubspec-version.outputs.version-number }}
+#      - name: Test echo 2
+#        run: |
+#          echo "Pure version number is: ${{steps.version-without-build-number.outputs.version-number}}"
+      - name: Bump the version and build number
         id: bump-version
         uses: ./.github/actions/bump-semver
         with:
-          semver-version: ${{ steps.version-without-build-number.outputs.version-number }}
+          pubspec-version-with-build: ${{ steps.pubspec-version.outputs.version-number }}
           bump-type: ${{ github.event.inputs.semVer }}
       - name: Test echo 3
         run: |
           echo "Bumped version number is: ${{steps.bump-version.outputs.version-number}}"
-          
-          
-      ### WIP    
+
+      ### WIP
       - uses: peterjgrainger/action-create-branch@v2.0.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

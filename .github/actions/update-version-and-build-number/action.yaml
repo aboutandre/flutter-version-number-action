@@ -1,0 +1,25 @@
+name: update-version-and-build-number
+description: 'Updates the version and build number of the pubspec.yaml'
+author: aboutandre
+branding:
+  icon: 'archive'
+  color: 'green'
+inputs:
+  sem-version:
+    description: "The version found in ./pubspec.yaml"
+    required: true
+  build-number:
+    description: "The version found in ./pubspec.yaml"
+    required: true
+outputs:
+  version-number:
+    description: "Version number"
+    value: ${{ steps.strip-build-number.outputs.version }}
+runs:
+  using: "composite"
+  steps:
+    - id: strip-build-number
+      run: |
+        VERSION=`echo "${{inputs.flutter-version}}" | sed 's|.*\:||' | sed 's|\(.*\)+.*|\1|' | xargs`
+        echo "::set-output name=version::$(echo $VERSION)"
+      shell: bash

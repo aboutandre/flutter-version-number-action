@@ -5,15 +5,15 @@ branding:
   icon: 'archive'
   color: 'green'
 inputs:
-  semver-version:
-    description: "A version number following the format MAJOR.MINOR.PATCH"
+  pubspec-version-with-build:
+    description: "A version number following the format MAJOR.MINOR.PATCH+BUILD_NUMBER"
     required: true
   bump-type:
     description: "Either PATCH, MINOR or MAJOR"
     required: true
 outputs:
   version-number:
-    description: "New version number"
+    description: "New version with build number"
     value: ${{ steps.bump.outputs.bumped-version }}
 runs:
   using: "composite"
@@ -22,9 +22,9 @@ runs:
       run: |
         BUMP_TYPE=${{inputs.bump-type}}
         
-        var=${{inputs.semver-version}}
+        semVersion=`echo "${{inputs.pubspec-version-with-build}}" | sed 's|.*\:||' | sed 's|\(.*\)+.*|\1|' | xargs`
         IFS=. read -r version minor patch <<EOF
-        $var
+        $semVersion
         EOF
         
         case ${BUMP_TYPE^^} in
@@ -33,6 +33,8 @@ runs:
           *)     BUMPED_VERSION="$version.$((minor+1)).0"; ;;
         esac
           
+        BUILD_NUMBER=`echo "${{inputs.pubspec-version-with-build}}" | grep -o '+.*' | cut -f2- -d+`
+        BUILD_NUMBER=$((BUILD_NUMBER + 1))
         
-        echo "::set-output name=bumped-version::$(echo $BUMPED_VERSION)"
+        echo "::set-output name=bumped-version::$(echo $BUMPED_VERSION+$BUILD_NUMBER)"
       shell: bash
