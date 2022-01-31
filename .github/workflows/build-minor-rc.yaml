@@ -1,7 +1,7 @@
 on:
   workflow_dispatch:
 
-name: Checkout test
+name: build-minor-rc
 jobs:
   test:
     name: test
