@@ -19,7 +19,7 @@ runs:
       run: |
         CHECK=false
         checkForBranch() {
-        git ls-remote --quiet --exit-code --heads https://github.com/aboutandre/flutter-version-number-action main
+        git ls-remote --quiet --exit-code --heads https://github.com/aboutandre/flutter-version-number-action ${{inputs.branch}}
         echo $?
         CHECK=$?
         return $?
