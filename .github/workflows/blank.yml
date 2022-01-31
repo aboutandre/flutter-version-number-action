@@ -50,7 +50,8 @@ jobs:
       - uses: actions/checkout@v2
         with:
           ref: 'rc-${{steps.bump-version.outputs.version-number}}'
-      - run: sed -i -e 's/${{ steps.pubspec-version.outputs.version-number }}/${{steps.bump-version.outputs.version-number}}/gi' pubspec.yaml
+      - name: Update pubspec.yaml version and build number
+        run: sed -i -e 's/${{ steps.pubspec-version.outputs.version-number }}/${{steps.bump-version.outputs.version-number}}/gi' pubspec.yaml
 #      - uses: DamianReeves/write-file-action@v1.0
 #        with:
 #            # The path to the file to write
@@ -58,6 +59,7 @@ jobs:
 #          contents: |
 #            echo "Hello World!"
 #          write-mode: overwrite
+      - name: Commit and push updated pubspec.yaml
       - uses: EndBug/add-and-commit@v8.0.1
         with:
           add: pubspec.yaml
