@@ -21,11 +21,14 @@ runs:
         git ls-remote --exit-code --heads https://github.com/${{ github.repository }} ${{ inputs.branch }}
         echo "This is the exit code"
         echo $?
-        if [ $? -eq 2 ]
-        then
-        BRANCH_EXISTS=false
-        else
+        retVal=$?
+        if [ $retVal -ne 0 ]; then
         BRANCH_EXISTS=true
+        else
+        BRANCH_EXISTS=false
         fi
+        echo "Branch exists"
+        echo BRANCH_EXISTS
+        echo $BRANCH_EXISTS
         echo "::set-output name=branch-exists::$(echo $BRANCH_EXISTS)"
       shell: bash
