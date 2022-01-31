@@ -45,7 +45,7 @@ jobs:
         uses: actions/github-script@v3
         with:
           script: |
-            git show-ref --quiet rc-${{steps.bump-version.outputs.version-number}}; then
+            if git show-ref --quiet rc-${{steps.bump-version.outputs.version-number}}; then
               core.setFailed('Branch already exists')
             fi
       ### WIP
