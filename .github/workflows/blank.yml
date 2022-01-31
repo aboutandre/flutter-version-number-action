@@ -63,3 +63,7 @@ jobs:
       - run: git branch --show-current
       - run: echo ${{github.ref}}
       - run: echo ${GITHUB_REF##*/}
+      - name: Branch name check
+        # Guard to ensure we are running on our RC branch
+        if: ${{ git branch --show-current == 'rc-${{ needs.create-release-candidate-branch.outputs.rc-version }}' }}
+        run: echo "I live!"
