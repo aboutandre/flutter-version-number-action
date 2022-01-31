@@ -17,14 +17,15 @@ runs:
   steps:
     - id: guard
       run: |
-
-#        git ls-remote --exit-code --heads https://github.com/${{ github.repository }} ${{ inputs.branch }}
+         git branch 
+         echo $?
 #        echo "This is the exit code"
 #        echo $?
 #        BRANCH_EXISTS=$(if [ $? -ne 0 ]; then echo true; else echo false; fi)
 #        echo "Branch exists"
 #        echo BRANCH_EXISTS
 #        echo $BRANCH_EXISTS
-        BRANCH_EXISTS=$(git show-branch ${{ inputs.branch }} &>/dev/null && echo true || echo false)
-        echo "::set-output name=branch-exists::$(echo $BRANCH_EXISTS)"
+#        BRANCH_EXISTS=$(git show-branch ${{ inputs.branch }} &>/dev/null && echo true || echo false)
+         git show-branch ${{ inputs.branch }} &>/dev/null && echo true || echo false
+        echo "::set-output name=branch-exists::$(echo false)"
       shell: bash
