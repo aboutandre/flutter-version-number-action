@@ -17,12 +17,12 @@ runs:
   steps:
     - id: guard
       run: |
-        BRANCH_EXISTS=false
+        BRANCH_EXISTS=true
         if git show-ref --quiet ${{inputs.branch}}; then
           BRANCH_EXISTS=true; else
           BRANCH_EXISTS=false
         fi
         echo "inside action"
-        echo BRANCH_EXISTS
+        echo $BRANCH_EXISTS
         echo "::set-output name=branch-exists::$(echo $BRANCH_EXISTS)"
       shell: bash
