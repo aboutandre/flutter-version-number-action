@@ -55,8 +55,9 @@ jobs:
         run: echo "I live!"
   choice-check:
     name: "Transition all master tickets to test"
-    runs-on: ubuntu-latest
     if: github.event.inputs.skip-jira-automation != true
+    needs: [test]
+    runs-on: ubuntu-latest
     steps:
       - name: Choice check echo
         run: |
