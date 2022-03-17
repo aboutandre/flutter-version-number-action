@@ -45,6 +45,8 @@ jobs:
           add: pubspec.yaml
           push: true
           default_author: github_actor
+          tag: '${{steps.bump-version.outputs.bumped-version-number}}'
+          tag_push: '--force'
       - run: git checkout rc-${{steps.bump-version.outputs.bumped-version-number}}
       - run: git branch --show-current
       - run: echo ${{github.ref}}
