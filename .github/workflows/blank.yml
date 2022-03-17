@@ -16,45 +16,44 @@ on:
 
 name: Checkout test
 jobs:
-  test:
-    name: test
+  create-release-candidate-branch:
+    name: Create Release Candidate Branch
     runs-on: ubuntu-latest
     steps:
-      - name: Test echo
-        run: | 
-          echo "Release candidate with level: "${{ github.event.inputs.semVer }}" will be created"
-      - uses: actions/checkout@v2
+      - name: Log RC level chosen
+        run: |
+          echo "Release candidate with level: "${{ github.event.inputs.sem-ver }}" will be created"
+      - uses: actions/checkout@v3
       - name: Bump the version and build number
         id: bump-version
         uses: ./.github/actions/bump-semver
         with:
-          bump-type: ${{ github.event.inputs.semVer }}
-      - uses: peterjgrainger/action-create-branch@v2.0.1
+          bump-type: ${{ github.event.inputs.sem-ver }}
+      - uses: peterjgrainger/action-create-branch@v2.1.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          branch: 'rc-${{steps.bump-version.outputs.bumped-version-number}}'
-      - uses: actions/checkout@v2
+          branch: 'release/v${{steps.bump-version.outputs.bumped-version-number}}'
+      - uses: actions/checkout@v3
         with:
-          ref: 'rc-${{steps.bump-version.outputs.bumped-version-number}}'
+          ref: 'release/v${{steps.bump-version.outputs.bumped-version-number}}'
       - name: Update pubspec.yaml version and build number
         run: sed -i -e '1,/${{ steps.bump-version.outputs.parsed-version-number }}/{s/${{ steps.bump-version.outputs.parsed-version-number }}/${{steps.bump-version.outputs.bumped-version-number}}/;}' pubspec.yaml
       - name: Commit and push updated pubspec.yaml
-        uses: EndBug/add-and-commit@v9
+        uses: EndBug/add-and-commit@v9.0.0
         with:
           add: pubspec.yaml
           push: true
           default_author: github_actor
-          tag: '${{steps.bump-version.outputs.bumped-version-number}}'
+          message: 'chore: bump version to ${{ steps.bump-version.outputs.bumped-version-number }}'
+          tag: '${{ steps.bump-version.outputs.bumped-version-number }}'
           tag_push: '--force'
-      - run: git checkout rc-${{steps.bump-version.outputs.bumped-version-number}}
-      - run: git branch --show-current
-      - run: echo ${{github.ref}}
-      - run: echo ${GITHUB_REF##*/}
-      - name: Branch name check
-        # Guard to ensure we are running on our RC branch
-#        if: ${{ git branch --show-current == 'rc-${{ needs.create-release-candidate-branch.outputs.rc-version }}' }}
-        run: echo "I live!"
+      - name: Git push changes
+        run: git push
+      - name: Checkout branch
+        run: git checkout release/v${{steps.bump-version.outputs.bumped-version-number}}
+    outputs:
+      fix-version: ${{ steps.bump-version.outputs.bumped-version-number }}
   choice-check:
     name: "Transition all master tickets to test"
     if: github.event.inputs.skip-jira-automation != true
