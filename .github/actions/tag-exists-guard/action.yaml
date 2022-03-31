@@ -25,5 +25,5 @@ runs:
         CHECK_TAG=false
         fi
 
-        echo "::set-output name=tag-exists::$(echo CHECK_TAG)"
+        echo "::set-output name=tag-exists::$(echo $CHECK_TAG)"
       shell: bash
