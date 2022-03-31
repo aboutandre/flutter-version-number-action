@@ -81,7 +81,7 @@ jobs:
 
   create-release-candidate-branch:
     name: Create Release Candidate Branch
-    needs: [ check-if-tag-exist, bump-version ]
+    needs: [ check-if-tag-exists, bump-version ]
     if: needs.check-if-tag-exists.outputs.tagIsNew
     runs-on: ubuntu-latest
     steps:
