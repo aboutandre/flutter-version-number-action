@@ -72,6 +72,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # fetch all history for all branches and tags
+          ref: ${{ needs.create-release-candidate-branch.outputs.fix-version }}
       - name: Check input
         run: |
           echo "bumped-version-number ${{ needs.bump-version.outputs.bumped-version-number }}"
