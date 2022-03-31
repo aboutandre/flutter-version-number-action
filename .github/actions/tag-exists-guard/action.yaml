@@ -20,6 +20,7 @@ runs:
         if git rev-parse "$TAG" >/dev/null 2>&1; then
         echo "tag exists";
         CHECK_TAG=true
+        exit 1
         else
         echo "tag does not exist"
         CHECK_TAG=false
