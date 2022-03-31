@@ -81,17 +81,17 @@ jobs:
         with:
           tag: ${{ needs.bump-version.outputs.bumped-version-number }}
     outputs:
-      tagIsNew: ${{ steps.tag-guard.outputs.tag-exists }}
+      tagExists: ${{ steps.tag-guard.outputs.tag-exists }}
 
   create-release-candidate-branch:
     name: Create Release Candidate Branch
     needs: [ check-if-tag-exists, bump-version ]
-    if: needs.check-if-tag-exists.outputs.tagIsNew
+    if: needs.check-if-tag-exists.outputs.tagExists == false
     runs-on: ubuntu-latest
     steps:
       - name: Check if tag exists
         run: |
-          echo "needs.check-if-tag-exists.outputs.tagIsNew: ${{ needs.check-if-tag-exists.outputs.tagIsNew }}"
+          echo "needs.check-if-tag-exists.outputs.tagExists: ${{ needs.check-if-tag-exists.outputs.tagExists }}"
       - uses: actions/checkout@v3
       - uses: peterjgrainger/action-create-branch@v2.1.0
         env:
