@@ -56,9 +56,13 @@ jobs:
         uses: ./.github/actions/bump-semver
         with:
           bump-type: ${{ github.event.inputs.sem-ver }}
+      - name: Log bumped values
+        run: |
+          echo "bumped-version-number: "${{ steps.bump-version.outputs.bumped-version-number }}""
+          echo "parsed-version-number: "${{ steps.bump-version.outputs.parsed-version-number }}""
     outputs:
-      bumped-version-number: ${{ steps.outputs.bumped-version-number }}
-      parsed-version-number: ${{ steps.outputs.parsed-version-number }}
+      bumped-version-number: ${{ steps.bump-version.outputs.bumped-version-number }}
+      parsed-version-number: ${{ steps.bump-version.outputs.parsed-version-number }}
 
 
 
