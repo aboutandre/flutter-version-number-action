@@ -81,7 +81,7 @@ jobs:
         with:
           tag: ${{ needs.bump-version.outputs.bumped-version-number }}
     outputs:
-      tagIsNew: steps.tag-guard.outputs.tag-exists
+      tagIsNew: ${{ steps.tag-guard.outputs.tag-exists }}
 
   create-release-candidate-branch:
     name: Create Release Candidate Branch
