@@ -70,19 +70,8 @@ jobs:
     name: Guard to check if the cadidate tag already exists
     needs: [bump-version]
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: mukunku/tag-exists-action@v1.0.0
-        id: checkTag
-        with:
-          tag: '${{ needs.bump-version.outputs.bumped-version-number }}'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Check if the tag already exists
-        run: |
-          Tag "${{ needs.bump-version.outputs.bumped-version-number }}" exists: ${{ steps.checkTag.outputs.exists }}
     outputs:
-      tagIsNew: steps.checkTag.outputs.exists == 'false'
+      tagIsNew: git rev-parse "refs/tags/${{ needs.bump-version.outputs.bumped-version-number }}" >/dev/null 2>&1
 
   create-release-candidate-branch:
     name: Create Release Candidate Branch
