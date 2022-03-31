@@ -17,7 +17,7 @@ runs:
   steps:
     - id: guard
       run: |
-        if git rev-parse "$TAG" >/dev/null 2>&1; then
+        if git rev-parse "refs/tags/${{ inputs.tag }}" >/dev/null 2>&1; then
         echo "tag exists";
         CHECK_TAG=true
         exit 1
