@@ -75,8 +75,13 @@ jobs:
       - name: Check input
         run: |
           echo "bumped-version-number ${{ needs.bump-version.outputs.bumped-version-number }}"
+      - name: Check if tag already exists
+        id: tag-guard
+        uses: ./.github/actions/tag-exists-guard
+        with:
+          tag: ${{ needs.bump-version.outputs.bumped-version-number }}
     outputs:
-      tagIsNew: git rev-parse "refs/tags/${{ needs.bump-version.outputs.bumped-version-number }}" >/dev/null 2>&1
+      tagIsNew: steps.tag-guard.outputs.tag-exists
 
   create-release-candidate-branch:
     name: Create Release Candidate Branch

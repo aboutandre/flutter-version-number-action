@@ -1,0 +1,29 @@
+name: tag-exists-guard
+description: 'Guard to check if a git tag exists'
+author: aboutandre
+branding:
+  icon: 'archive'
+  color: 'green'
+inputs:
+  tag:
+    description: "The tag to check if it exists in the repo"
+    required: true
+outputs:
+  tag-exists:
+    description: "The tag exists"
+    value: ${{ steps.guard.outputs.tag-exists }}
+runs:
+  using: "composite"
+  steps:
+    - id: guard
+      run: |
+        if git rev-parse "$TAG" >/dev/null 2>&1; then
+        echo "tag exists";
+        CHECK_TAG=true
+        else
+        echo "tag does not exist"
+        CHECK_TAG=false
+        fi
+
+        echo "::set-output name=tag-exists::$(echo CHECK_TAG)"
+      shell: bash
