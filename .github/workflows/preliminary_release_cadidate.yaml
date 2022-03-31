@@ -75,12 +75,12 @@ jobs:
       - uses: mukunku/tag-exists-action@v1.0.0
         id: checkTag
         with:
-          tag: 'v${{ needs.bump-version.outputs.bumped-version-number }}'
+          tag: '${{ needs.bump-version.outputs.bumped-version-number }}'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Check if the tag already exists
         run: |
-          Tag "v${{ needs.bump-version.outputs.bumped-version-number }}" exists: ${{ steps.checkTag.outputs.exists }}
+          Tag "${{ needs.bump-version.outputs.bumped-version-number }}" exists: ${{ steps.checkTag.outputs.exists }}
     outputs:
       tagIsNew: steps.checkTag.outputs.exists == 'false'
 
