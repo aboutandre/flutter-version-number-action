@@ -118,3 +118,13 @@ jobs:
         run: git checkout v${{needs.bump-version.outputs.bumped-version-number}}
     outputs:
       fix-version: ${{ needs.bump-version.outputs.bumped-version-number }}
+
+
+  test-dependency:
+    name: Just a job to test if create-release-candidate-branch triggers this job
+    needs: [create-release-candidate-branch]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Simple logging
+        run: |
+          echo "I am dependent on create-release-candidate-branch"
