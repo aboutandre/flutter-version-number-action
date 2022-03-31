@@ -70,6 +70,11 @@ jobs:
     name: Guard to check if the cadidate tag already exists
     needs: [bump-version]
     runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Check input
+        run: |
+          echo "bumped-version-number ${{ bumped-version-number }}"
     outputs:
       tagIsNew: git rev-parse "refs/tags/${{ needs.bump-version.outputs.bumped-version-number }}" >/dev/null 2>&1
 
