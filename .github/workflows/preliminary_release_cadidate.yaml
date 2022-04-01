@@ -145,22 +145,17 @@ jobs:
   create-pr-into-master: # because master is protected we use a pull request to bypass this restriction in automation
     name: "Create PR for branch merge back into master"
     runs-on: ubuntu-latest
-    needs: [ create-release-candidate-branch, test-dependency, bump-version ]
+    needs: [ create-release-candidate-branch, build-and-release-ios, build-and-release-android ]
     steps:
-      - uses: peterjgrainger/action-create-branch@v2.1.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          branch: 'vTEMP${{needs.bump-version.outputs.bumped-version-number}}'
       - uses: actions/checkout@v3 # we need to do a checkout before pr creation
         with:
-          fetch-depth: 0 # fetch all history for all branches and tags
-          ref: 'vTEMP${{ needs.create-release-candidate-branch.outputs.fix-version }}'
+          fetch-depth: 0 # fetch all history for all branches and tags for release notes
+          ref: 'v${{ needs.create-release-candidate-branch.outputs.fix-version }}'
       - name: pull-request
         uses: repo-sync/pull-request@v2
         id: open-pr
         with:
-          source_branch: 'vTEMP${{ needs.create-release-candidate-branch.outputs.fix-version }}'
+          source_branch: 'v${{ needs.create-release-candidate-branch.outputs.fix-version }}'
           destination_branch: "main"
           github_token: ${{ secrets.GITHUB_TOKEN }}
           pr_label: "feature, automated pr"
@@ -180,7 +175,7 @@ jobs:
         id: find-pull-request
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          branch: 'vTEMP${{ needs.create-release-candidate-branch.outputs.fix-version }}'
+          branch: 'v${{ needs.create-release-candidate-branch.outputs.fix-version }}'
       - run: echo "Pull Request ${number} (${sha})"
         env:
           number: ${{ steps.find-pull-request.outputs.number }}
@@ -191,6 +186,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const repository = context.repo
+
             await github.rest.pulls.merge({
               merge_method: "merge",
               owner: repository.owner,
