@@ -174,7 +174,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           branch: 'v${{ needs.create-release-candidate-branch.outputs.fix-version }}'
-      - run: echo "Pull Request ${number} (${sha})"
+        run: echo "Pull Request ${number} (${sha})"
         env:
           number: ${{ steps.find-pull-request.outputs.number }}
           sha: ${{ steps.find-pull-request.outputs.head-sha }}
