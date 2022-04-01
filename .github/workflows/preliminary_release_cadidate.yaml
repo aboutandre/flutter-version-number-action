@@ -122,6 +122,15 @@ jobs:
     outputs:
       fix-version: ${{ needs.bump-version.outputs.bumped-version-number }}
 
+  transition-jira-tickets:
+    if: github.event.inputs.skip-jira-automation != true
+    name: "Transition all master tickets to test"
+    runs-on: ubuntu-latest
+    needs: [ create-release-candidate-branch ]
+    steps:
+      - name: Create release from current pubspec and edit tickets accordingly
+        run: |
+          echo "I would transition all master tickets to test"
 
   test-dependency:
     name: Just a job to test if create-release-candidate-branch triggers this job
