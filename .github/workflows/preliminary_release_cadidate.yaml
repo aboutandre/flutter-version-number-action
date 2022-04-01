@@ -145,7 +145,7 @@ jobs:
   create-pr-into-master: # because master is protected we use a pull request to bypass this restriction in automation
     name: "Create PR for branch merge back into master"
     runs-on: ubuntu-latest
-    needs: [ create-release-candidate-branch, test-dependency ]
+    needs: [ create-release-candidate-branch, test-dependency, bump-version ]
     steps:
       - uses: actions/checkout@v3 # we need to do a checkout before pr creation
         with:
