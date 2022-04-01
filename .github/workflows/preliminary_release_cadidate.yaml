@@ -152,6 +152,7 @@ jobs:
           ref: 'v${{ needs.create-release-candidate-branch.outputs.fix-version }}'
       - name: pull-request
         uses: repo-sync/pull-request@v2
+        id: open-pr
         with:
           source_branch: 'v${{ needs.create-release-candidate-branch.outputs.fix-version }}'
           destination_branch: "main"
@@ -174,7 +175,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           branch: 'v${{ needs.create-release-candidate-branch.outputs.fix-version }}'
-        run: echo "Pull Request ${number} (${sha})"
+      - run: echo "Pull Request ${number} (${sha})"
         env:
           number: ${{ steps.find-pull-request.outputs.number }}
           sha: ${{ steps.find-pull-request.outputs.head-sha }}
