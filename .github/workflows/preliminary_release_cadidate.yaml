@@ -140,3 +140,53 @@ jobs:
       - name: Simple logging
         run: |
           echo "I am dependent on create-release-candidate-branch"
+
+  create-pr-into-master: # because master is protected we use a pull request to bypass this restriction in automation
+    name: "Create PR for branch merge back into master"
+    runs-on: ubuntu-latest
+    needs: [ create-release-candidate-branch, test-dependency ]
+    steps:
+      - uses: actions/checkout@v3 # we need to do a checkout before pr creation
+        with:
+          fetch-depth: 0 # fetch all history for all branches and tags for release notes
+          ref: 'v${{ needs.create-release-candidate-branch.outputs.fix-version }}'
+      - name: pull-request
+        uses: repo-sync/pull-request@v2
+        with:
+          source_branch: 'v${{ needs.create-release-candidate-branch.outputs.fix-version }}'
+          destination_branch: "main"
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          pr_label: "feature, automated pr"
+          pr_title: "[GithubActions] Release v${{ needs.create-release-candidate-branch.outputs.fix-version }}"
+      - name: output-number
+        run: echo ${{steps.open-pr.outputs.pr_number}}
+    outputs:
+      pr-number: ${steps.open-pr.outputs.pr_number}
+
+  merge-release-into-master:
+    name: "Merge release branch back into master"
+    runs-on: ubuntu-latest
+    needs: [ create-release-candidate-branch, create-pr-into-master ]
+    steps:
+      - name: "Find Pull Request"
+        uses: juliangruber/find-pull-request-action@v1
+        id: find-pull-request
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          branch: 'v${{ needs.create-release-candidate-branch.outputs.fix-version }}'
+      - run: echo "Pull Request ${number} (${sha})"
+        env:
+          number: ${{ steps.find-pull-request.outputs.number }}
+          sha: ${{ steps.find-pull-request.outputs.head-sha }}
+      - name: "Merge pull request"
+        uses: "actions/github-script@v6"
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const repository = context.repo
+            await github.rest.pulls.merge({
+              merge_method: "merge",
+              owner: repository.owner,
+              pull_number: ${{ steps.find-pull-request.outputs.number }},
+              repo: repository.repo,
+            })
