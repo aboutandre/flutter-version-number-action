@@ -151,11 +151,16 @@ jobs:
         with:
           fetch-depth: 0 # fetch all history for all branches and tags for release notes
           ref: 'v${{ needs.create-release-candidate-branch.outputs.fix-version }}'
+      - uses: peterjgrainger/action-create-branch@v2.1.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          branch: 'v${{needs.bump-version.outputs.bumped-version-number}}-temp'
       - name: pull-request
         uses: repo-sync/pull-request@v2
         id: open-pr
         with:
-          source_branch: 'v${{ needs.create-release-candidate-branch.outputs.fix-version }}'
+          source_branch: 'v${{ needs.create-release-candidate-branch.outputs.fix-version }}-temp'
           destination_branch: "main"
           github_token: ${{ secrets.GITHUB_TOKEN }}
           pr_label: "feature, automated pr"
@@ -175,7 +180,7 @@ jobs:
         id: find-pull-request
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          branch: 'v${{ needs.create-release-candidate-branch.outputs.fix-version }}'
+          branch: 'v${{ needs.create-release-candidate-branch.outputs.fix-version }}-temp'
       - run: echo "Pull Request ${number} (${sha})"
         env:
           number: ${{ steps.find-pull-request.outputs.number }}
